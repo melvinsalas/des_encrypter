@@ -74,7 +74,7 @@
           Desencriptar
         </button>
         <button
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-3"
+          class="border-2 border-gray-400 text-gray-500 bg-white hover:bg-gray-400 hover:text-white focus:outline-none font-bold py-2 px-4 rounded mx-3"
           @click.prevent="clean"
           type="submit"
         >
@@ -84,8 +84,18 @@
     </form>
 
     <div
+      class="w-full max-w-4xl bg-red-200 rounded overflow-hidden shadow-lg p-6 bg-white text-center m-4"
+      v-if="errors.decryption"
+    >
+      <h1 class="text-2xl text-red-400 font-semibold">
+        El texto no se puede desencriptar
+      </h1>
+      <p class="text-gray-700">El mensaje o la clave son incorrectas</p>
+    </div>
+
+    <div
       class="w-full max-w-4xl rounded overflow-hidden shadow-lg p-6 bg-white text-center m-4"
-      v-if="type !== ''"
+      v-if="type !== '' && !errors.decryption"
     >
       <h1 class="text-2xl font-semibold" v-if="type === 'encryption'">
         Texto encriptado
@@ -104,7 +114,7 @@
         </div>
         <div class="md:w-5/6">
           <input
-            class="bg-gray-200 border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight"
+            class="bg-gray-100 border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight  focus:outline-none "
             v-model="result.hex"
             readonly
           />
@@ -122,7 +132,7 @@
         </div>
         <div class="md:w-5/6">
           <input
-            class="bg-gray-100 border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight"
+            class="bg-gray-100 border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight  focus:outline-none "
             v-model="result.ascii"
             readonly
           />
@@ -140,7 +150,7 @@
         </div>
         <div class="md:w-5/6">
           <input
-            class="bg-gray-100 border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight"
+            class="bg-gray-100 border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight  focus:outline-none "
             v-model="result.salt"
             readonly
           />
@@ -158,7 +168,7 @@
         </div>
         <div class="md:w-5/6">
           <input
-            class="bg-gray-100 border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight"
+            class="bg-gray-100 border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight  focus:outline-none "
             v-model="result.iv"
             readonly
           />
@@ -182,6 +192,7 @@ export default {
       errors: {
         message: false,
         password: false,
+        decryption: false,
       },
       result: {
         ascii: "",
@@ -211,6 +222,9 @@ export default {
         this.data.password
       )
       this.result.ascii = this.result.hex.toString(CryptoJS.enc.Utf8)
+      if (this.result.ascii.toString() === "") {
+        this.errors.decryption = true
+      }
     },
     clean() {
       this.data = {
@@ -221,9 +235,11 @@ export default {
       this.errors = {
         message: false,
         password: false,
+        decryption: false,
       }
     },
     validation() {
+      this.errors.decryption = false
       this.errors.message = this.data.message.length == 0
       this.errors.password = this.data.password.length < 6
       return !this.errors.message && !this.errors.password
