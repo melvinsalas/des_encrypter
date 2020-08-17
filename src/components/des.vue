@@ -3,7 +3,9 @@
     <form
       class="w-full max-w-4xl rounded overflow-hidden shadow-lg p-6 bg-white text-center m-4"
     >
-      <h1 class="text-4xl font-semibold mb-6">Encriptador DES</h1>
+      <h1 class="font-semibold mb-6 text-2xl lg:text-3xl xl:text-4xl">
+        Encriptador DES
+      </h1>
       <div class="md:flex md:items-center">
         <div class="md:w-1/6">
           <label
@@ -60,21 +62,21 @@
 
       <div class="md:flex justify-center">
         <button
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-3"
+          class="my-1 w-full md:w-1/5 mx-0 md:mx-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           @click.prevent="encrypt"
           type="submit"
         >
           Encriptar
         </button>
         <button
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-3"
+          class="my-1 w-full md:w-1/5 mx-0 md:mx-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           @click.prevent="decrypt"
           type="submit"
         >
           Desencriptar
         </button>
         <button
-          class="border-2 border-gray-400 text-gray-500 bg-white hover:bg-gray-400 hover:text-white focus:outline-none font-bold py-2 px-4 rounded mx-3"
+          class="my-1 w-full md:w-1/5 mx-0 md:mx-3 border-2 border-gray-400 text-gray-500 bg-white hover:bg-gray-400 hover:text-white focus:outline-none font-bold py-2 px-4 rounded"
           @click.prevent="clean"
           type="submit"
         >
@@ -87,7 +89,7 @@
       class="w-full max-w-4xl bg-red-200 rounded overflow-hidden shadow-lg p-6 bg-white text-center m-4"
       v-if="errors.decryption"
     >
-      <h1 class="text-2xl text-red-400 font-semibold">
+      <h1 class="text-2xl text-red-400 font-semibold mb-3">
         El texto no se puede desencriptar
       </h1>
       <p class="text-gray-700">El mensaje o la clave son incorrectas</p>
@@ -97,10 +99,10 @@
       class="w-full max-w-4xl rounded overflow-hidden shadow-lg p-6 bg-white text-center m-4"
       v-if="type !== '' && !errors.decryption"
     >
-      <h1 class="text-2xl font-semibold" v-if="type === 'encryption'">
+      <h1 class="text-2xl font-semibold mb-3" v-if="type === 'encryption'">
         Texto encriptado
       </h1>
-      <h1 class="text-2xl font-semibold" v-if="type === 'decryption'">
+      <h1 class="text-2xl font-semibold mb-3" v-if="type === 'decryption'">
         Texto desencriptado
       </h1>
       <div class="md:flex md:items-center mt-6" v-if="type === 'decryption'">
@@ -148,16 +150,13 @@
             Salt
           </label>
         </div>
-        <div class="md:w-5/6">
+        <div class="md:w-2/6">
           <input
             class="bg-gray-100 border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight  focus:outline-none "
             v-model="result.salt"
             readonly
           />
         </div>
-      </div>
-
-      <div class="md:flex md:items-center mt-6" v-if="type === 'encryption'">
         <div class="md:w-1/6">
           <label
             class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
@@ -166,7 +165,7 @@
             IV
           </label>
         </div>
-        <div class="md:w-5/6">
+        <div class="md:w-2/6">
           <input
             class="bg-gray-100 border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight  focus:outline-none "
             v-model="result.iv"
